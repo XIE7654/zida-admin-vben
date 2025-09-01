@@ -315,6 +315,15 @@ enum DICT_TYPE {
   TRADE_ORDER_STATUS = 'trade_order_status', // 订单 - 状态
   TRADE_ORDER_TYPE = 'trade_order_type', // 订单 - 类型
   USER_TYPE = 'user_type',
+
+
+  // ========== TEMU 模块 ==========
+  TEMU_SHOP_TYPE = 'temu_shop_type',
+  TEMU_SHOP_CURRENCY = 'temu_shop_currency',
+  TEMU_SHOP_SITE = 'temu_shop_site',
+
+  // ========== EBAY 模块 ==========
+  EBAY_SHOP_SITE = 'ebay_shop_site',
 }
 
 export {

@@ -1192,3 +1192,13 @@ export const MindMapContentExample = `# Java 技术栈
 ### IntelliJ IDEA
 ### Eclipse
 ### Visual Studio Code`;
+
+// ========== TEMU 模块 ==========
+/**
+ * 店铺的类型枚举
+ */
+export const TEMUSHOPTYPEEnum = {
+  FULL: 1, // 全托管店铺
+  HALF: 2, // 半托管店铺
+  LOCAL: 3, // 本土店铺
+};
