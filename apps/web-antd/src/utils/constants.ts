@@ -1197,7 +1197,7 @@ export const MindMapContentExample = `# Java 技术栈
 /**
  * 店铺的类型枚举
  */
-export const TEMUSHOPTYPEEnum = {
+export const TEMUSTORETYPEEnum = {
   FULL: 1, // 全托管店铺
   HALF: 2, // 半托管店铺
   LOCAL: 3, // 本土店铺

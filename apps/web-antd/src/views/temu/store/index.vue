@@ -2,25 +2,29 @@
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { StoreApi } from '#/api/temu/store';
 
+import { ref } from 'vue';
+
 import { Page, useVbenModal } from '@vben/common-ui';
-import { message,Tabs } from 'ant-design-vue';
-import Form from './modules/form.vue';
+import { isEmpty } from '@vben/utils';
 
+import { message } from 'ant-design-vue';
 
-import { ref, computed } from 'vue';
-import { $t } from '#/locales';
 import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getStorePage, deleteStore, deleteStoreList, exportStore } from '#/api/temu/store';
-import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
+import {
+  authorizeStore,
+  deleteStore,
+  deleteStoreList,
+  getStorePage,
+} from '#/api/temu/store';
+import { $t } from '#/locales';
 
-import { useGridColumns, useGridFormSchema } from './data';
-
+import { useGridColumns } from './data';
+import Form from './modules/form.vue';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
-  destroyOnClose: true
+  destroyOnClose: true,
 });
-
 
 /** 刷新表格 */
 function onRefresh() {
@@ -37,12 +41,11 @@ function handleEdit(row: StoreApi.Store) {
   formModalApi.setData(row).open();
 }
 
-
 /** 删除Temu 店铺授权信息 */
 async function handleDelete(row: StoreApi.Store) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.id]),
-    key: 'action_key_msg'
+    key: 'action_key_msg',
   });
   try {
     await deleteStore(row.id as number);
@@ -56,12 +59,11 @@ async function handleDelete(row: StoreApi.Store) {
   }
 }
 
-
 /** 授权Temu 店铺 */
-async function handleAuthorize(row: ShopApi.Shop) {
+async function handleAuthorize(row: StoreApi.Store) {
   // 这里添加授权逻辑
   message.info(`开始授权店铺: ${row.id}`);
-  const data = await authorizeShop(row);
+  const data = await authorizeStore(row);
   if (data.success) {
     message.success({
       content: $t('ui.actionMessage.operationSuccess', [row.id]),
@@ -75,7 +77,7 @@ async function handleAuthorize(row: ShopApi.Shop) {
 async function handleDeleteBatch() {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting'),
-    key: 'action_key_msg'
+    key: 'action_key_msg',
   });
   try {
     await deleteStoreList(checkedIds.value);
@@ -90,20 +92,11 @@ async function handleDeleteBatch() {
   }
 }
 
-const checkedIds = ref<number[]>([])
-function handleRowCheckboxChange({
-  records
-}: {
-  records: StoreApi.Store[];
-}) {
+const checkedIds = ref<number[]>([]);
+function handleRowCheckboxChange({ records }: { records: StoreApi.Store[] }) {
   checkedIds.value = records.map((item) => item.id);
 }
 
-/** 导出表格 */
-async function handleExport() {
-  const data = await exportStore(await gridApi.formApi.getValues());
-  downloadFileFromBlobPart({ fileName: 'Temu 店铺授权信息.xls', source: data });
-}
 
 const [Grid, gridApi] = useVbenVxeGrid({
   // formOptions: {
@@ -133,12 +126,12 @@ const [Grid, gridApi] = useVbenVxeGrid({
     toolbarConfig: {
       refresh: true,
       search: true,
-    }
+    },
   } as VxeTableGridOptions<StoreApi.Store>,
-  gridEvents:{
-      checkboxAll: handleRowCheckboxChange,
-      checkboxChange: handleRowCheckboxChange
-  }
+  gridEvents: {
+    checkboxAll: handleRowCheckboxChange,
+    checkboxChange: handleRowCheckboxChange,
+  },
 });
 </script>
 
@@ -172,7 +165,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       <template #actions="{ row }">
         <TableAction
           :actions="[
-              {
+            {
               label: '授权',
               type: 'link',
               icon: ACTION_ICON.EDIT,
@@ -201,6 +194,5 @@ const [Grid, gridApi] = useVbenVxeGrid({
         />
       </template>
     </Grid>
-
   </Page>
 </template>

@@ -316,14 +316,13 @@ enum DICT_TYPE {
   TRADE_ORDER_TYPE = 'trade_order_type', // 订单 - 类型
   USER_TYPE = 'user_type',
 
-
   // ========== TEMU 模块 ==========
-  TEMU_SHOP_TYPE = 'temu_shop_type',
-  TEMU_SHOP_CURRENCY = 'temu_shop_currency',
-  TEMU_SHOP_SITE = 'temu_shop_site',
+  TEMU_STORE_TYPE = 'temu_store_type',
+  TEMU_STORE_CURRENCY = 'temu_store_currency',
+  TEMU_STORE_SITE = 'temu_store_site',
 
   // ========== EBAY 模块 ==========
-  EBAY_SHOP_SITE = 'ebay_shop_site',
+  EBAY_STORE_SITE = 'ebay_store_site',
 }
 
 export {

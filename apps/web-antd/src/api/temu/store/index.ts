@@ -1,5 +1,6 @@
-import type { PageParam, PageResult } from '@vben/request';
 import type { Dayjs } from 'dayjs';
+
+import type { PageParam, PageResult } from '@vben/request';
 
 import { requestClient } from '#/api/request';
 
@@ -18,7 +19,7 @@ export namespace StoreApi {
     shopCurrency: string; // 店铺币种，如 CNY、USD(香港主体店铺) 等
     shopSite: string; // 店铺站点（本土店铺用，如美国、法国等）
     authStatus?: number; // 授权状态：0-未授权，1-已授权，2-已过期，3-已取消
-    authTime: string | Dayjs; // 授权时间
+    authTime: Dayjs | string; // 授权时间
     apiScopeList: string; // API权限列表，JSON格式存储
     appSubscribeEventCodeList: string; // 应用订阅事件列表，JSON格式存储
     appSubscribeStatus: number; // 应用订阅状态：0-未订阅，1-已订阅
@@ -32,7 +33,9 @@ export namespace StoreApi {
 
 /** 查询Temu 店铺授权信息分页 */
 export function getStorePage(params: PageParam) {
-  return requestClient.get<PageResult<StoreApi.Store>>('/temu/store/page', { params });
+  return requestClient.get<PageResult<StoreApi.Store>>('/temu/store/page', {
+    params,
+  });
 }
 
 /** 查询Temu 店铺授权信息详情 */
@@ -57,7 +60,7 @@ export function deleteStore(id: number) {
 
 /** 批量删除Temu 店铺授权信息 */
 export function deleteStoreList(ids: number[]) {
-  return requestClient.delete(`/temu/store/delete-list?ids=${ids.join(',')}`)
+  return requestClient.delete(`/temu/store/delete-list?ids=${ids.join(',')}`);
 }
 
 /** 导出Temu 店铺授权信息 */
@@ -67,6 +70,6 @@ export function exportStore(params: any) {
 
 
 /** 新增Temu 店铺授权信息 */
-export function authorizeShop(data: StoreApi.Shop) {
+export function authorizeStore(data: StoreApi.Store) {
   return requestClient.post(`/temu/shop/authorize?id=${data.id}`);
 }

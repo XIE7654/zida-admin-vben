@@ -1,13 +1,13 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { ShopApi } from '#/api/temu/shop';
+import type { StoreApi } from '#/api/temu/store';
 
 import { z } from '#/adapter/form';
 import {
   DICT_TYPE,
   getDictOptions,
   getRangePickerDefaultProps,
-  TEMUSHOPTYPEEnum,
+  TEMUSTORETYPEEnum,
 } from '#/utils';
 
 /** 新增/修改的表单 */
@@ -22,17 +22,17 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'shopType',
+      fieldName: 'StoreType',
       label: '店铺类型',
       component: 'RadioGroup',
       componentProps: {
-        options: getDictOptions(DICT_TYPE.TEMU_SHOP_TYPE, 'number'),
+        options: getDictOptions(DICT_TYPE.TEMU_STORE_TYPE, 'number'),
         placeholder: '请选择店铺类型',
       },
-      rules: z.number().default(TEMUSHOPTYPEEnum.FULL),
+      rules: z.number().default(TEMUSTORETYPEEnum.FULL),
     },
     {
-      fieldName: 'shopName',
+      fieldName: 'StoreName',
       label: '自定义店铺名称',
       rules: 'required',
       component: 'Input',
@@ -48,10 +48,10 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入产品库存 Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.FULL, TEMUSHOPTYPEEnum.HALF].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.FULL, TEMUSTORETYPEEnum.HALF].includes(
+            values.StoreType,
           );
         },
       },
@@ -64,10 +64,10 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入合规 API Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.FULL].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.FULL].includes(
+            values.StoreType,
           );
         },
       },
@@ -80,10 +80,10 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入美国订单发货 Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.HALF].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.HALF].includes(
+            values.StoreType,
           );
         },
       },
@@ -96,10 +96,10 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入欧区订单发货 Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.HALF].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.HALF].includes(
+            values.StoreType,
           );
         },
       },
@@ -112,10 +112,10 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入全球订单发货 Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.HALF].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.HALF].includes(
+            values.StoreType,
           );
         },
       },
@@ -128,44 +128,44 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '授权 Token',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.LOCAL].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.LOCAL].includes(
+            values.StoreType,
           );
         },
       },
     },
     {
-      fieldName: 'shopCurrency',
+      fieldName: 'StoreCurrency',
       label: '店铺币种',
       component: 'Select',
       componentProps: {
-        options: getDictOptions(DICT_TYPE.TEMU_SHOP_CURRENCY, 'string'),
+        options: getDictOptions(DICT_TYPE.TEMU_STORE_CURRENCY, 'string'),
         placeholder: '请输入店铺币种',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.FULL, TEMUSHOPTYPEEnum.HALF].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.FULL, TEMUSTORETYPEEnum.HALF].includes(
+            values.StoreType,
           );
         },
       },
     },
     {
-      fieldName: 'shopSite',
+      fieldName: 'StoreSite',
       label: '店铺站点',
       component: 'Select',
       componentProps: {
-        options: getDictOptions(DICT_TYPE.TEMU_SHOP_SITE, 'string'),
+        options: getDictOptions(DICT_TYPE.TEMU_STORE_SITE, 'string'),
         placeholder: '请输入店铺站点）',
       },
       dependencies: {
-        triggerFields: ['shopType'],
+        triggerFields: ['StoreType'],
         show: (values) => {
-          return [TEMUSHOPTYPEEnum.LOCAL].includes(
-            values.shopType,
+          return [TEMUSTORETYPEEnum.LOCAL].includes(
+            values.StoreType,
           );
         },
       },
@@ -177,7 +177,7 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      fieldName: 'shopType',
+      fieldName: 'StoreType',
       label: '店铺类型',
       component: 'Select',
       componentProps: {
@@ -187,7 +187,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'shopName',
+      fieldName: 'StoreName',
       label: '自定义店铺名称',
       component: 'Input',
       componentProps: {
@@ -241,7 +241,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'shopCurrency',
+      fieldName: 'StoreCurrency',
       label: '店铺币种，如 CNY、USD(香港主体店铺) 等',
       component: 'Input',
       componentProps: {
@@ -250,7 +250,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'shopSite',
+      fieldName: 'StoreSite',
       label: '店铺站点（本土店铺用，如美国、法国等）',
       component: 'Input',
       componentProps: {
@@ -345,7 +345,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
 }
 
 /** 列表的字段 */
-export function useGridColumns(): VxeTableGridOptions<ShopApi.Shop>['columns'] {
+export function useGridColumns(): VxeTableGridOptions<StoreApi.Store>['columns'] {
   return [
     { type: 'checkbox', width: 40 },
     {
@@ -354,35 +354,35 @@ export function useGridColumns(): VxeTableGridOptions<ShopApi.Shop>['columns'] {
       minWidth: 120,
     },
     {
-      field: 'shopType',
+      field: 'StoreType',
       title: '店铺类型',
       minWidth: 120,
       cellRender: {
         name: 'CellDict',
-        props: { type: DICT_TYPE.TEMU_SHOP_TYPE },
+        props: { type: DICT_TYPE.TEMU_STORE_TYPE },
       },
     },
     {
-      field: 'shopName',
+      field: 'StoreName',
       title: '自定义店铺名称',
       minWidth: 120,
     },
     {
-      field: 'shopCurrency',
+      field: 'StoreCurrency',
       title: '店铺币种',
       minWidth: 120,
       cellRender: {
         name: 'CellDict',
-        props: { type: DICT_TYPE.TEMU_SHOP_CURRENCY },
+        props: { type: DICT_TYPE.TEMU_STORE_CURRENCY },
       },
     },
     {
-      field: 'shopSite',
+      field: 'StoreSite',
       title: '店铺站点',
       minWidth: 120,
       cellRender: {
         name: 'CellDict',
-        props: { type: DICT_TYPE.TEMU_SHOP_SITE },
+        props: { type: DICT_TYPE.TEMU_STORE_SITE },
       },
     },
     {
