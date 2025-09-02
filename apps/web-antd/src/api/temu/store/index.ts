@@ -8,16 +8,16 @@ export namespace StoreApi {
   /** Temu 店铺授权信息信息 */
   export interface Store {
     id: number; // 自增主键
-    shopType?: number; // 店铺类型：1-全托管店铺，2-半托管店铺，3-本土店铺
-    shopName?: string; // 自定义店铺名称
+    storeType?: number; // 店铺类型：1-全托管店铺，2-半托管店铺，3-本土店铺
+    storeName?: string; // 自定义店铺名称
     productStockToken: string; // 产品库存 Token
     complianceApiToken: string; // 合规 API Token
     orderShippingTokenUs: string; // 美国订单发货 Token
     orderShippingTokenEu: string; // 欧区订单发货 Token
     orderShippingTokenGlobal: string; // 全球订单发货 Token
     accessToken: string; // 授权token
-    shopCurrency: string; // 店铺币种，如 CNY、USD(香港主体店铺) 等
-    shopSite: string; // 店铺站点（本土店铺用，如美国、法国等）
+    storeCurrency: string; // 店铺币种，如 CNY、USD(香港主体店铺) 等
+    storeSite: string; // 店铺站点（本土店铺用，如美国、法国等）
     authStatus?: number; // 授权状态：0-未授权，1-已授权，2-已过期，3-已取消
     authTime: Dayjs | string; // 授权时间
     apiScopeList: string; // API权限列表，JSON格式存储
@@ -71,5 +71,5 @@ export function exportStore(params: any) {
 
 /** 新增Temu 店铺授权信息 */
 export function authorizeStore(data: StoreApi.Store) {
-  return requestClient.post(`/temu/shop/authorize?id=${data.id}`);
+  return requestClient.post(`/temu/store/authorize?id=${data.id}`);
 }

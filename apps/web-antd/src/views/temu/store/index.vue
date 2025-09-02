@@ -169,7 +169,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
               label: '授权',
               type: 'link',
               icon: ACTION_ICON.EDIT,
-              auth: ['temu:shop:update'],
+              auth: ['temu:store:update'],
               onClick: handleAuthorize.bind(null, row),
             },
             {
