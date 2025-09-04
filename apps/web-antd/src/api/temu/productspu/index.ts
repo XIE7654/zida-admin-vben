@@ -69,3 +69,8 @@ export function deleteProductSpuList(ids: number[]) {
 export function exportProductSpu(params: any) {
   return requestClient.download('/temu/product-spu/export-excel', params);
 }
+
+/** 同步Temu SPU */
+export function syncProductSpu() {
+  return requestClient.post('/temu/product-spu/sync-all');
+}

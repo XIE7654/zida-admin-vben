@@ -10,7 +10,7 @@ import Form from './modules/form.vue';
 import { ref, computed } from 'vue';
 import { $t } from '#/locales';
 import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getProductSpuPage, deleteProductSpu, deleteProductSpuList, exportProductSpu } from '#/api/temu/productspu';
+import { getProductSpuPage, deleteProductSpu, syncProductSpu, deleteProductSpuList, exportProductSpu } from '#/api/temu/productspu';
 import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
 
 import { useGridColumns, useGridFormSchema } from './data';
@@ -21,6 +21,29 @@ const [FormModal, formModalApi] = useVbenModal({
   destroyOnClose: true
 });
 
+/** 同步Temu SPU */
+async function handleSync() {
+  const hideLoading = message.loading({
+    content: '正在同步',
+    key: 'action_key_msg'
+  });
+  try {
+    // 这里需要替换为实际的同步API调用
+    await syncProductSpu();
+    message.success({
+      content: '同步成功',
+      key: 'action_key_msg',
+    });
+    onRefresh();
+  } catch (error) {
+    message.error({
+      content: '同步失败',
+      key: 'action_key_msg',
+    });
+  } finally {
+    hideLoading();
+  }
+}
 
 /** 刷新表格 */
 function onRefresh() {
@@ -31,6 +54,7 @@ function onRefresh() {
 function handleCreate() {
   formModalApi.setData({}).open();
 }
+
 
 /** 编辑Temu SPU */
 function handleEdit(row: ProductSpuApi.ProductSpu) {
@@ -141,6 +165,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
               icon: ACTION_ICON.ADD,
               auth: ['temu:product-spu:create'],
               onClick: handleCreate,
+            },
+            {
+              label: '同步', // 同步按钮
+              type: 'primary',
+              icon: ACTION_ICON.REFRESH,
+              auth: ['temu:product-spu:create'],
+              onClick: handleSync,
             },
             {
               label: $t('ui.actionTitle.export'),
