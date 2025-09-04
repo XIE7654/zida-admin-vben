@@ -69,3 +69,8 @@ export function deleteProductSkuList(ids: number[]) {
 export function exportProductSku(params: any) {
   return requestClient.download('/temu/product-sku/export-excel', params);
 }
+
+/** 同步Temu SkU */
+export function syncProductSku() {
+  return requestClient.post('/temu/product-sku/sync-all');
+}

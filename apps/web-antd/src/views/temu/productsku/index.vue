@@ -10,7 +10,13 @@ import Form from './modules/form.vue';
 import { ref, computed } from 'vue';
 import { $t } from '#/locales';
 import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getProductSkuPage, deleteProductSku, deleteProductSkuList, exportProductSku } from '#/api/temu/productsku';
+import {
+  getProductSkuPage,
+  deleteProductSku,
+  syncProductSku,
+  deleteProductSkuList,
+  exportProductSku,
+} from '#/api/temu/productsku';
 import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
 
 import { useGridColumns, useGridFormSchema } from './data';
@@ -90,6 +96,31 @@ async function handleExport() {
   downloadFileFromBlobPart({ fileName: 'Temu SKU明细.xls', source: data });
 }
 
+
+/** 同步Temu SkU */
+async function handleSync() {
+  const hideLoading = message.loading({
+    content: '正在同步',
+    key: 'action_key_msg'
+  });
+  try {
+    // 这里需要替换为实际的同步API调用
+    await syncProductSku();
+    message.success({
+      content: '同步成功',
+      key: 'action_key_msg',
+    });
+    onRefresh();
+  } catch (error) {
+    message.error({
+      content: '同步失败',
+      key: 'action_key_msg',
+    });
+  } finally {
+    hideLoading();
+  }
+}
+
 const [Grid, gridApi] = useVbenVxeGrid({
   // formOptions: {
   //   schema: useGridFormSchema()
@@ -141,6 +172,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
               icon: ACTION_ICON.ADD,
               auth: ['temu:product-sku:create'],
               onClick: handleCreate,
+            },
+            {
+              label: '同步', // 同步按钮
+              type: 'primary',
+              icon: ACTION_ICON.REFRESH,
+              auth: ['temu:product-sku:create'],
+              onClick: handleSync,
             },
             {
               label: $t('ui.actionTitle.export'),
